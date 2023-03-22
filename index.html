@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="icon" href="img/ramadan.png">
+		<title>Happy Ramadhan 1444H</title>
+
+		<link rel="stylesheet" href="css/output.css">
+		<link rel="stylesheet" href="css/style.css">
+	</head>
+
+	<body class="bg-green-200">
+		<div class="flex flex-wrap-reverse justify-center items-center gap-4">
+			<div class="model top-0 w-80"></div>
+
+			<div class="flex flex-wrap items-center justify-center">
+				<div class="container max-w-4xl bg-white rounded shadow-xl m-12">
+					<div class="h-96 overflow-hidden rounded-t">
+						<img class="rounded-t w-full h-full object-cover object-center" src="img/bg2.jpeg" alt="Photo By Simon Infanger on Unsplash">
+					</div>
+					<div class="flex justify-center px-5 -mt-24 mb-5">
+						<span class="block h-44 w-44">
+							<img class="mx-auto object-cover rounded-full bg-white p-1.5" src="img/profile.jpeg" alt="Nafis Fadhil">
+						</span>
+					</div>
+					<div class="px-7 mb-8">
+						<h1 class="text-5xl font-bold text-center text-green-800">Selamat Menunaikan Ibadah Puasa 1444H</h1>
+						<p class="text-2xl text-slate-500 text-center italic mt-10">Semoga Allah memberikan kita kegembiraan, kesehatan, kebahagiaan, kedamaian, dan kemakmuran di bulan Ramadhan ini.</p>
+					</div>
+				</div>
+			</div>	
+		</div>
+
+		<script
+			async
+			src="https://unpkg.com/es-module-shims@1.6.3/dist/es-module-shims.js"
+		></script>
+
+		<script type="importmap">
+			{
+				"imports": {
+					"three": "https://unpkg.com/three@0.150.1/build/three.module.js",
+					"loaders": "https://unpkg.com/three@0.150.1/examples/jsm/loaders/GLTFLoader.js"
+				}
+			}
+		</script>
+
+		<script type="module">
+			import * as THREE from "three";
+			import { GLTFLoader } from "loaders";
+
+			const scene = new THREE.Scene();
+			const camera = new THREE.PerspectiveCamera(
+				75,
+				window.innerWidth / window.innerHeight,
+				0.1,
+				1000
+			);
+
+			const renderer = new THREE.WebGLRenderer({ alpha: true });
+			renderer.setSize(window.innerWidth, window.innerHeight);
+
+			const model = document.querySelector('.model');
+			model.appendChild(renderer.domElement);
+
+			camera.position.z = 5.5;
+			camera.position.x = 6.5;
+			camera.position.y = -.4;
+
+			const ambientLight = new THREE.AmbientLight(0xffffff, 20); // soft white light
+			scene.add(ambientLight);
+
+			const pointLight = new THREE.PointLight(0xffffff, 1, 100);
+			pointLight.position.set(50, 50, 50);
+			scene.add(pointLight);
+
+			const loader = new GLTFLoader();
+			let ketupat;
+
+			loader.load("ketupat/scene.gltf", function (gltf) {
+				ketupat = gltf.scene;
+				ketupat.scale.set(26, 34, 26);
+				ketupat.rotation.z = .3;
+				scene.add(gltf.scene);
+			});
+
+			function animate() {
+				requestAnimationFrame(animate);
+				if(ketupat) {
+					ketupat.rotation.y += .01;
+				}
+
+				renderer.render(scene, camera);
+			}
+			animate();
+		</script>
+	</body>
+</html>
